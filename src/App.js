@@ -90,28 +90,31 @@ class App extends Component {
   }
 
   deleteImageHandler = id => {
-    let newActiveImages = [...this.state.activeImages];
-    let newDeletedImages = [...this.state.deletedImages];
-    let imageIndex = newActiveImages.findIndex(img => {
-      return img.id === id;
-    });;
-    let imageToDelete = newActiveImages[imageIndex];
-    newDeletedImages.push(imageToDelete);
-    newActiveImages.splice(imageIndex, 1);
-    if (newActiveImages.length === 0) {
-      this.setState({
-        activeImages: newActiveImages,
-        deletedImages: newDeletedImages,
-        show: 'deletedImages',
-        selectedImage: null,
-        disableActive: true,
-        disableDeleted: false
-      })
-    } else {
-      this.setState({
-        activeImages: newActiveImages,
-        deletedImages: newDeletedImages,
-      })
+    if (window.confirm('Are you sure you want to delete this image?')) {
+      let newActiveImages = [...this.state.activeImages];
+      let newDeletedImages = [...this.state.deletedImages];
+      let imageIndex = newActiveImages.findIndex(img => {
+        return img.id === id;
+      });;
+      let imageToDelete = newActiveImages[imageIndex];
+      newDeletedImages.push(imageToDelete);
+      newActiveImages.splice(imageIndex, 1);
+      if (newActiveImages.length === 0) {
+        this.setState({
+          activeImages: newActiveImages,
+          deletedImages: newDeletedImages,
+          show: 'deletedImages',
+          selectedImage: null,
+          disableActive: true,
+          disableDeleted: false
+        })
+      } else {
+        this.setState({
+          activeImages: newActiveImages,
+          deletedImages: newDeletedImages,
+          selectedImage: null
+        })
+      }
     }
   }
 
@@ -137,7 +140,8 @@ class App extends Component {
       this.setState({
         activeImages: newActiveImages,
         deletedImages: newDeletedImages,
-        disableActive: false
+        disableActive: false,
+        selectedImage: null
       })
     }
   }
@@ -205,7 +209,7 @@ class App extends Component {
               'SelectDeletedImages'}
           onClick={() => this.toggleButtonHandler('activeImages')}
           disabled={this.state.disableActive}>
-          Active
+          All
         </Button>
         <Button
           className={

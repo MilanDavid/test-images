@@ -3,6 +3,7 @@ import './App.css';
 import DisplayImages from './DisplayImages/DisplayImages';
 import { Jumbotron, Container, Row, ButtonGroup, Button } from 'react-bootstrap';
 import DisplayOptions from './DisplayImages/DisplayOptions/DisplayOptions';
+import { saveAs } from 'file-saver';
 
 class App extends Component {
 
@@ -51,6 +52,16 @@ class App extends Component {
     this.setState({
       selectedImage: null
     })
+  }
+
+  downloadImageHandler = id => {
+    let fileIndex = this.state.activeImages.findIndex(image => {
+      return image.id === id
+    })
+    let fileLink = this.state.activeImages[fileIndex].imgurl;
+    let fileName = this.state.activeImages[fileIndex].name;
+
+    saveAs(fileLink, fileName);
   }
 
   deleteImageHandler = id => {
@@ -112,7 +123,7 @@ class App extends Component {
 
     if (this.state.selectedImage) {
       selectedImageOption = (
-        <DisplayOptions hidden={this.state.show} restore={() => this.restoreImageHandler(this.state.selectedImage)} delete={() => this.deleteImageHandler(this.state.selectedImage)} />
+        <DisplayOptions download={() => this.downloadImageHandler(this.state.selectedImage)} restore={() => this.restoreImageHandler(this.state.selectedImage)} delete={() => this.deleteImageHandler(this.state.selectedImage)} />
       )
     }
 
@@ -121,7 +132,7 @@ class App extends Component {
         <Row>
           {this.state[this.state.show].map((image) => {
             return (
-              <DisplayImages click={() => this.selectDeselectImageHandler(image.id)} key={image.id} imgurl={image.imgurl} alt={image.name} text={image.text} />
+              <DisplayImages download={() => this.downloadImageHandler(image.id)} click={() => this.selectDeselectImageHandler(image.id)} key={image.id} imgurl={image.imgurl} alt={image.name} text={image.text} />
             )
           })}
         </Row>

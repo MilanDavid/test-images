@@ -4,6 +4,10 @@ import DisplayImages from './DisplayImages/DisplayImages';
 import { Jumbotron, Container, Row, ButtonGroup, Button } from 'react-bootstrap';
 import DisplayOptions from './DisplayImages/DisplayOptions/DisplayOptions';
 import { saveAs } from 'file-saver';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 class App extends Component {
 
@@ -46,6 +50,7 @@ class App extends Component {
     selectedImage: null,
     disableDeleted: false,
     disableActive: false,
+    open: false
   };
 
   toggleButtonHandler = typeOfImagesToShow => {
@@ -89,35 +94,6 @@ class App extends Component {
     saveAs(fileLink, fileName);
   }
 
-  deleteImageHandler = id => {
-    if (window.confirm('Are you sure you want to delete this image?')) {
-      let newActiveImages = [...this.state.activeImages];
-      let newDeletedImages = [...this.state.deletedImages];
-      let imageIndex = newActiveImages.findIndex(img => {
-        return img.id === id;
-      });;
-      let imageToDelete = newActiveImages[imageIndex];
-      newDeletedImages.push(imageToDelete);
-      newActiveImages.splice(imageIndex, 1);
-      if (newActiveImages.length === 0) {
-        this.setState({
-          activeImages: newActiveImages,
-          deletedImages: newDeletedImages,
-          show: 'deletedImages',
-          selectedImage: null,
-          disableActive: true,
-          disableDeleted: false
-        })
-      } else {
-        this.setState({
-          activeImages: newActiveImages,
-          deletedImages: newDeletedImages,
-          selectedImage: null
-        })
-      }
-    }
-  }
-
   restoreImageHandler = id => {
     let newActiveImages = [...this.state.activeImages];
     let newDeletedImages = [...this.state.deletedImages];
@@ -146,7 +122,73 @@ class App extends Component {
     }
   }
 
+  confirmationDialogHandler = () => {
+    this.setState({
+      open: true
+    })
+  }
+
+  handleClose = (event) => {
+    let id = this.state.selectedImage;
+    if (event === true) {
+      let newActiveImages = [...this.state.activeImages];
+      let newDeletedImages = [...this.state.deletedImages];
+      let imageIndex = newActiveImages.findIndex(img => {
+        return img.id === id;
+      });;
+      let imageToDelete = newActiveImages[imageIndex];
+      newDeletedImages.push(imageToDelete);
+      newActiveImages.splice(imageIndex, 1);
+      if (newActiveImages.length === 0) {
+        this.setState({
+          activeImages: newActiveImages,
+          deletedImages: newDeletedImages,
+          show: 'deletedImages',
+          selectedImage: null,
+          disableActive: true,
+          disableDeleted: false,
+          open: false
+        })
+      } else {
+        this.setState({
+          activeImages: newActiveImages,
+          deletedImages: newDeletedImages,
+          selectedImage: null,
+          open: false
+        })
+      }
+    } else {
+      this.setState({
+        open: false
+      })
+    }
+  }
+
   render() {
+
+    let confirmDialog = (
+      <div>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description">
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              You are about to delete this image, proceed?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.handleClose(true)} style={{ backgroundColor: '#4f587d' }}>
+              Proceed
+            </Button>
+            <Button onClick={() => this.handleClose(false)} style={{ backgroundColor: '#4f587d' }} autoFocus>
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    )
 
     let selectedImageOption = null;
 
@@ -156,7 +198,7 @@ class App extends Component {
           optionSet={this.state.show}
           download={() => this.downloadImageHandler(this.state.selectedImage)}
           restore={() => this.restoreImageHandler(this.state.selectedImage)}
-          delete={() => this.deleteImageHandler(this.state.selectedImage)} />
+          delete={() => this.confirmationDialogHandler(this.state.selectedImage)} />
       )
     }
 
@@ -234,6 +276,7 @@ class App extends Component {
           {images}
         </Container>
         {selectedImageOption}
+        {confirmDialog}
       </div>
     )
 

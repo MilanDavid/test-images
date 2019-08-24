@@ -12,3 +12,9 @@
   background-color: #4f587d;
   color: white
 }
+
+.btn-primary.disabled, .btn-primary:disabled {
+  color: #fff;
+  background-color: #4f587d;
+  border-color: #4f587d;
+}

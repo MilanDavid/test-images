@@ -24,7 +24,7 @@ const displayImages = (props) => {
                     backgroundPosition: 'top',
                     backgroundSize: 'cover' }} />
                 <Card.Body>
-                    <Card.Text>
+                    <Card.Text style={{ textAlign: 'center'}}>
                         {props.text}
                     </Card.Text>
                 </Card.Body>

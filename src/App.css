@@ -2,3 +2,13 @@
   height: 100vh;
   text-align: center;
 }
+
+.SelectActiveImages {
+  background-color: white;
+  color: #4f587d
+}
+
+.SelectDeletedImages {
+  background-color: #4f587d;
+  color: white
+}

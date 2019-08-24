@@ -8,39 +8,120 @@ class App extends Component {
 
   state = {
     activeImages: [
-      { id: '1', imgurl: './assets/Images/image-1.jpg', text: 'Who we are', name: 'image-1.jpg', selected: false },
-      { id: '2', imgurl: './assets/Images/image-2.jpg', text: 'Partnership rationale', name: 'image-2.jpg', selected: false },
-      { id: '3', imgurl: './assets/Images/image-3.jpg', text: 'Partnership rationale', name: 'image-3.jpg', selected: false },
-      { id: '4', imgurl: './assets/Images/image-4.jpg', text: 'Our clubs', name: 'image-4.jpg', selected: false },
+      { id: '1', imgurl: './assets/Images/image-1.jpg', text: 'Who we are', name: 'image-1.jpg' },
+      { id: '2', imgurl: './assets/Images/image-2.jpg', text: 'Partnership rationale', name: 'image-2.jpg' },
+      { id: '3', imgurl: './assets/Images/image-3.jpg', text: 'Partnership rationale', name: 'image-3.jpg' },
+      { id: '4', imgurl: './assets/Images/image-4.jpg', text: 'Our clubs', name: 'image-4.jpg' }
     ],
     deletedImages: [
-      { id: '5', imgurl: './assets/Images/image-5.jpg', text: 'The opprotunity', name: 'image-5.jpg', selected: false }
+      { id: '5', imgurl: './assets/Images/image-5.jpg', text: 'The opprotunity', name: 'image-5.jpg' }
     ],
-    show: 'activeImages'
+    show: 'activeImages',
+    selectedImage: null,
+    disableDeleted: false,
+    disableActive: false,
   };
 
-  selectImageHandler = (imageId) => {
-    console.log(imageId);
+  toggleButtonHandler = typeOfImagesToShow => {
+    if (this.state.selectedImage !== null) {
+      this.setState({
+        selectedImage: null,
+        show: typeOfImagesToShow
+      })
+    } else {
+      this.setState({
+        show: typeOfImagesToShow
+      })
+    }
+  };
+
+  selectDeselectImageHandler = id => {
+    if (this.state.selectedImage === id) {
+      this.setState({
+        selectedImage: null
+      })
+    } else {
+      this.setState({
+        selectedImage: id
+      })
+    }
   }
 
-  
-  toggleButtonHandler = typeOfImagesToShow => {
+  deselectImagesHandler = () => {
     this.setState({
-      show: typeOfImagesToShow
+      selectedImage: null
     })
-  };
+  }
+
+  deleteImageHandler = id => {
+    let newActiveImages = [...this.state.activeImages];
+    let newDeletedImages = [...this.state.deletedImages];
+    let imageIndex = newActiveImages.findIndex(p => {
+      return p.id === id;
+    });;
+    let imageToDelete = newActiveImages[imageIndex];
+    newDeletedImages.push(imageToDelete);
+    newActiveImages.splice(imageIndex, 1);
+    if(newActiveImages.length === 0) {
+      this.setState({
+        activeImages: newActiveImages,
+        deletedImages: newDeletedImages,
+        show: 'deletedImages',
+        selectedImage: null,
+        disableActive: true,
+        disableDeleted: false
+      })
+    }
+    this.setState({
+      activeImages: newActiveImages,
+      deletedImages: newDeletedImages,
+    })
+  }
+
+  restoreImageHandler = id => {
+    let newActiveImages = [...this.state.activeImages];
+    let newDeletedImages = [...this.state.deletedImages];
+    let imageIndex = newDeletedImages.findIndex(p => {
+      return p.id === id;
+    });;
+    let imageToRestore = newDeletedImages[imageIndex];
+    newActiveImages.push(imageToRestore);
+    newDeletedImages.splice(imageIndex, 1);
+    if(newDeletedImages.length === 0) {
+      this.setState({
+        activeImages: newActiveImages,
+        deletedImages: newDeletedImages,
+        show: 'activeImages',
+        selectedImage: null,
+        disableDeleted: true,
+        disableActive: false
+      })
+    }
+    this.setState({
+      activeImages: newActiveImages,
+      deletedImages: newDeletedImages,
+      disableActive: false
+    })
+  }
 
   render() {
+
+    let selectedImageOption = null;
+
+    if (this.state.selectedImage) {
+      selectedImageOption = (
+        <DisplayOptions hidden={this.state.show} restore={() => this.restoreImageHandler(this.state.selectedImage)} delete={() => this.deleteImageHandler(this.state.selectedImage)}/>
+      )
+    }
 
     let images = (
       <Container fluid className="text-left">
         <Row>
           {this.state[this.state.show].map((image) => {
             return (
-              <DisplayImages click={() => this.selectImageHandler(image.id)} key={image.id} imgurl={image.imgurl} alt={image.name} text={image.text} />
+              <DisplayImages click={() => this.selectDeselectImageHandler(image.id)} key={image.id} imgurl={image.imgurl} alt={image.name} text={image.text} />
             )
-          })
-          }
+          })}
         </Row>
       </Container>
     )
@@ -55,8 +136,8 @@ class App extends Component {
 
     const toggleButton = (
       <ButtonGroup style={{ width: '245px', marginTop: '20px', marginBottom: '20px', marginRight: '15px' }}>
-        <Button style={{ backgroundColor: 'white', color: '#4f587d' }} onClick={() => this.toggleButtonHandler('activeImages')}>Active</Button>
-        <Button style={{ backgroundColor: '#4f587d', color: 'white' }} onClick={() => this.toggleButtonHandler('deletedImages')}>Deleted</Button>
+        <Button className={this.state.show === 'activeImages' ? 'SelectActiveImages' : 'SelectDeletedImages'} onClick={() => this.toggleButtonHandler('activeImages')} disabled={this.state.disableActive}>Active</Button>
+        <Button className={this.state.show === 'deletedImages' ? 'SelectActiveImages' : 'SelectDeletedImages'} onClick={() => this.toggleButtonHandler('deletedImages')} disabled={this.state.disableDeleted}>Deleted</Button>
       </ButtonGroup>
     )
 
@@ -67,9 +148,10 @@ class App extends Component {
           {toggleButton}
           {images}
         </Container>
-        <DisplayOptions />
+        {selectedImageOption}
       </div>
     )
+
   }
 }
 

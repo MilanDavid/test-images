@@ -8,6 +8,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import AddPhotoAlternate from '@material-ui/icons/AddPhotoAlternate';
+import { Card, Col } from 'react-bootstrap';
 
 class App extends Component {
 
@@ -164,6 +166,18 @@ class App extends Component {
     }
   }
 
+  fileSelectedHandler = (event) => {
+    let newImage = event.target.value;
+    let nameSplit = newImage.split('/');
+    let name = nameSplit[nameSplit.length - 1];
+    let newActiveImages = [...this.state.activeImages]
+    let id = Math.floor( Math.random() * 1000)
+    newActiveImages.push({id: id, imgurl: newImage, name: name, text: name})
+    this.setState({
+      activeImages: newActiveImages
+    })
+  }
+
   render() {
 
     let confirmDialog = (
@@ -202,6 +216,33 @@ class App extends Component {
       )
     }
 
+    let addImage = null;
+
+    if (this.state.show === 'activeImages') {
+      addImage = (
+        <Col
+          xs={12}
+          sm={6}
+          md={4}
+          xl={3}
+          style={{ marginBottom: '15px' }}>
+          <Card
+            style={{
+              cursor: 'pointer',
+              height: '220px'
+            }}>
+            <Card.Body>
+              <Card.Text style={{ textAlign: 'center', marginTop: '25px' }}>
+                <p>Image URL</p>
+                <input type="url" onChange={this.fileSelectedHandler} />
+                <AddPhotoAlternate style={{ fontSize: '60' }} />
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+      )
+    }
+
     let images = (
       <Container
         fluid
@@ -215,9 +256,10 @@ class App extends Component {
                 key={image.id}
                 imgurl={image.imgurl}
                 alt={image.name}
-                text={image.text} />
+                text={image.name} />
             )
           })}
+          {addImage}
         </Row>
       </Container>
     )

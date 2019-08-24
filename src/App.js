@@ -56,13 +56,13 @@ class App extends Component {
   deleteImageHandler = id => {
     let newActiveImages = [...this.state.activeImages];
     let newDeletedImages = [...this.state.deletedImages];
-    let imageIndex = newActiveImages.findIndex(p => {
-      return p.id === id;
+    let imageIndex = newActiveImages.findIndex(img => {
+      return img.id === id;
     });;
     let imageToDelete = newActiveImages[imageIndex];
     newDeletedImages.push(imageToDelete);
     newActiveImages.splice(imageIndex, 1);
-    if(newActiveImages.length === 0) {
+    if (newActiveImages.length === 0) {
       this.setState({
         activeImages: newActiveImages,
         deletedImages: newDeletedImages,
@@ -71,23 +71,24 @@ class App extends Component {
         disableActive: true,
         disableDeleted: false
       })
+    } else {
+      this.setState({
+        activeImages: newActiveImages,
+        deletedImages: newDeletedImages,
+      })
     }
-    this.setState({
-      activeImages: newActiveImages,
-      deletedImages: newDeletedImages,
-    })
   }
 
   restoreImageHandler = id => {
     let newActiveImages = [...this.state.activeImages];
     let newDeletedImages = [...this.state.deletedImages];
-    let imageIndex = newDeletedImages.findIndex(p => {
-      return p.id === id;
+    let imageIndex = newDeletedImages.findIndex(img => {
+      return img.id === id;
     });;
     let imageToRestore = newDeletedImages[imageIndex];
     newActiveImages.push(imageToRestore);
     newDeletedImages.splice(imageIndex, 1);
-    if(newDeletedImages.length === 0) {
+    if (newDeletedImages.length === 0) {
       this.setState({
         activeImages: newActiveImages,
         deletedImages: newDeletedImages,
@@ -96,12 +97,13 @@ class App extends Component {
         disableDeleted: true,
         disableActive: false
       })
+    } else {
+      this.setState({
+        activeImages: newActiveImages,
+        deletedImages: newDeletedImages,
+        disableActive: false
+      })
     }
-    this.setState({
-      activeImages: newActiveImages,
-      deletedImages: newDeletedImages,
-      disableActive: false
-    })
   }
 
   render() {
@@ -110,7 +112,7 @@ class App extends Component {
 
     if (this.state.selectedImage) {
       selectedImageOption = (
-        <DisplayOptions hidden={this.state.show} restore={() => this.restoreImageHandler(this.state.selectedImage)} delete={() => this.deleteImageHandler(this.state.selectedImage)}/>
+        <DisplayOptions hidden={this.state.show} restore={() => this.restoreImageHandler(this.state.selectedImage)} delete={() => this.deleteImageHandler(this.state.selectedImage)} />
       )
     }
 

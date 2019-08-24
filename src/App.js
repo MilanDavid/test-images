@@ -9,13 +9,38 @@ class App extends Component {
 
   state = {
     activeImages: [
-      { id: '1', imgurl: './assets/Images/image-1.jpg', text: 'Who we are', name: 'image-1.jpg' },
-      { id: '2', imgurl: './assets/Images/image-2.jpg', text: 'Partnership rationale', name: 'image-2.jpg' },
-      { id: '3', imgurl: './assets/Images/image-3.jpg', text: 'Partnership rationale', name: 'image-3.jpg' },
-      { id: '4', imgurl: './assets/Images/image-4.jpg', text: 'Our clubs', name: 'image-4.jpg' }
+      {
+        id: '1',
+        imgurl: './assets/Images/image-1.jpg',
+        text: 'Who we are',
+        name: 'image-1.jpg'
+      },
+      {
+        id: '2',
+        imgurl: './assets/Images/image-2.jpg',
+        text: 'Partnership rationale',
+        name: 'image-2.jpg'
+      },
+      {
+        id: '3',
+        imgurl: './assets/Images/image-3.jpg',
+        text: 'Partnership rationale',
+        name: 'image-3.jpg'
+      },
+      {
+        id: '4',
+        imgurl: './assets/Images/image-4.jpg',
+        text: 'Our clubs',
+        name: 'image-4.jpg'
+      }
     ],
     deletedImages: [
-      { id: '5', imgurl: './assets/Images/image-5.jpg', text: 'The opprotunity', name: 'image-5.jpg' }
+      {
+        id: '5',
+        imgurl: './assets/Images/image-5.jpg',
+        text: 'The opprotunity',
+        name: 'image-5.jpg'
+      }
     ],
     show: 'activeImages',
     selectedImage: null,
@@ -123,16 +148,28 @@ class App extends Component {
 
     if (this.state.selectedImage) {
       selectedImageOption = (
-        <DisplayOptions download={() => this.downloadImageHandler(this.state.selectedImage)} restore={() => this.restoreImageHandler(this.state.selectedImage)} delete={() => this.deleteImageHandler(this.state.selectedImage)} />
+        <DisplayOptions
+          optionSet={this.state.show}
+          download={() => this.downloadImageHandler(this.state.selectedImage)}
+          restore={() => this.restoreImageHandler(this.state.selectedImage)}
+          delete={() => this.deleteImageHandler(this.state.selectedImage)} />
       )
     }
 
     let images = (
-      <Container fluid className="text-left">
+      <Container
+        fluid
+        className="text-left">
         <Row>
           {this.state[this.state.show].map((image) => {
             return (
-              <DisplayImages download={() => this.downloadImageHandler(image.id)} click={() => this.selectDeselectImageHandler(image.id)} key={image.id} imgurl={image.imgurl} alt={image.name} text={image.text} />
+              <DisplayImages
+                download={() => this.downloadImageHandler(image.id)}
+                click={() => this.selectDeselectImageHandler(image.id)}
+                key={image.id}
+                imgurl={image.imgurl}
+                alt={image.name}
+                text={image.text} />
             )
           })}
         </Row>
@@ -140,24 +177,55 @@ class App extends Component {
     )
 
     const header = (
-      <Jumbotron fluid style={{ backgroundColor: 'white' }}>
+      <Jumbotron
+        fluid
+        style={{ backgroundColor: 'white' }}>
         <Container>
-          <h1 className="text-left" style={{ color: '#4f587d' }}>My Library</h1>
+          <h1
+            className="text-left"
+            style={{ color: '#4f587d' }}>
+            My Library
+          </h1>
         </Container>
       </Jumbotron>
     )
 
     const toggleButton = (
-      <ButtonGroup style={{ width: '245px', marginTop: '20px', marginBottom: '20px', marginRight: '15px' }}>
-        <Button className={this.state.show === 'activeImages' ? 'SelectActiveImages' : 'SelectDeletedImages'} onClick={() => this.toggleButtonHandler('activeImages')} disabled={this.state.disableActive}>Active</Button>
-        <Button className={this.state.show === 'deletedImages' ? 'SelectActiveImages' : 'SelectDeletedImages'} onClick={() => this.toggleButtonHandler('deletedImages')} disabled={this.state.disableDeleted}>Deleted</Button>
+      <ButtonGroup
+        style={{
+          width: '245px',
+          marginTop: '20px',
+          marginBottom: '20px',
+          marginRight: '15px'
+        }}>
+        <Button
+          className={
+            this.state.show === 'activeImages' ?
+              'SelectActiveImages' :
+              'SelectDeletedImages'}
+          onClick={() => this.toggleButtonHandler('activeImages')}
+          disabled={this.state.disableActive}>
+          Active
+        </Button>
+        <Button
+          className={
+            this.state.show === 'deletedImages' ?
+              'SelectActiveImages' :
+              'SelectDeletedImages'}
+          onClick={() => this.toggleButtonHandler('deletedImages')}
+          disabled={this.state.disableDeleted}>
+          Deleted
+        </Button>
       </ButtonGroup>
     )
 
     return (
-      <div className="App" style={{ backgroundColor: '#f3f4f8' }}>
+      <div
+        className="App"
+        style={{ backgroundColor: '#f3f4f8' }}>
         {header}
-        <Container className="text-right">
+        <Container
+          className="text-right">
           {toggleButton}
           {images}
         </Container>

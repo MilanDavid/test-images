@@ -9,18 +9,30 @@ import { Container } from '@material-ui/core';
 const displayOptions = (props) => {
 
     let deleteButton = (
-        <BottomNavigationAction onClick={props.delete} style={{ color: 'white' }} label="Delete" icon={<DeleteIcon />} />
+        <BottomNavigationAction
+            onClick={props.delete}
+            style={{ color: 'white' }}
+            label="Delete"
+            icon={<DeleteIcon />} />
     )
 
     let restoreButton = (
-        <BottomNavigationAction onClick={props.restore} style={{ color: 'white' }} label="Restore" icon={<RestoreIcon />} />
+        <BottomNavigationAction
+            onClick={props.restore}
+            style={{ color: 'white' }}
+            label="Restore"
+            icon={<RestoreIcon />} />
     )
 
     let downloadButton = (
-        <BottomNavigationAction onClick={props.download} style={{ color: 'white' }} label="Download" icon={<CloudDownloadIcon />} />
+        <BottomNavigationAction
+            onClick={props.download}
+            style={{ color: 'white' }}
+            label="Download"
+            icon={<CloudDownloadIcon />} />
     )
 
-    if (props.hidden === 'deletedImages') {
+    if (props.optionSet === 'deletedImages') {
         deleteButton = null;
         downloadButton = null;
     } else {
@@ -28,7 +40,15 @@ const displayOptions = (props) => {
     }
 
     const options = (
-        <Container xs={12} md={12} xl={12} style={{ position: 'fixed', bottom: '0', textAlign: 'center' }}>
+        <Container
+            xs={12}
+            md={12}
+            xl={12}
+            style={{
+                position: 'fixed',
+                bottom: '0',
+                textAlign: 'center'
+            }}>
             <BottomNavigation style={{ backgroundColor: '#4f587d' }} >
                 {deleteButton}
                 {downloadButton}

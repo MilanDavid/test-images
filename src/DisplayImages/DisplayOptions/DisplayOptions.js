@@ -44,7 +44,8 @@ const displayOptions = (props) => {
             bottom: '0',
             textAlign: 'center',
             position: 'fixed',
-            width: '100%'
+            width: '70%',
+            marginLeft: '15%'
         }} >
             {deleteButton}
             {downloadButton}

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
-import DisplayImages from './DisplayImages/DisplayImages';
-import DisplayTitle from './DisplayTitle/DisplayTitle';
-import DisplayCategories from './DisplayCategories/DisplayCategories';
 import { Container, Row } from 'react-bootstrap';
-import DisplayOptions from './DisplayOptions/DisplayOptions';
 import { saveAs } from 'file-saver';
-import AddPhotoAlternate from '@material-ui/icons/AddPhotoAlternate';
 import { Card, Col } from 'react-bootstrap';
-import DisplayConfirmation from './DisplayConfirmation/DisplayConfirmation';
+import AddPhotoAlternate from '@material-ui/icons/AddPhotoAlternate';
+
+import DisplayTitle from './components/DisplayTitle/DisplayTitle';
+import DisplayCategories from './components/DisplayCategories/DisplayCategories';
+import DisplayImages from './components/DisplayImages/DisplayImages';
+import DisplayConfirmation from './components/DisplayConfirmation/DisplayConfirmation';
+import DisplayOptions from './components/DisplayOptions/DisplayOptions';
 
 class App extends Component {
 
@@ -228,25 +229,21 @@ class App extends Component {
 
     // display images template
     let images = (
-      <Container
-        fluid
-        className="text-left">
-        <Row>
-          {this.state[this.state.show].map((image) => {
-            return (
-              <DisplayImages
-                download={() => this.downloadImageHandler(image.id)}
-                click={() => this.selectDeselectImageHandler(image.id)}
-                key={image.id}
-                imgurl={image.imgurl}
-                alt={image.name}
-                text={image.name}
-                active={this.state.selectedImage === image.id ? 'shadow-lg' : ''} />
-            )
-          })}
-          {addImage}
-        </Row>
-      </Container>
+      <Row>
+        {this.state[this.state.show].map((image) => {
+          return (
+            <DisplayImages
+              download={() => this.downloadImageHandler(image.id)}
+              click={() => this.selectDeselectImageHandler(image.id)}
+              key={image.id}
+              imgurl={image.imgurl}
+              alt={image.name}
+              text={image.name}
+              active={this.state.selectedImage === image.id ? 'shadow-lg' : ''} />
+          )
+        })}
+        {addImage}
+      </Row>
     )
 
     return (
@@ -258,7 +255,11 @@ class App extends Component {
           <DisplayCategories
             show={this.state.show}
             toggle={this.toggleButtonHandler} />
-          {images}
+          <Container
+            fluid
+            className="text-left">
+            {images}
+          </Container>
         </Container>
         {selectedImageOption}
         <DisplayConfirmation

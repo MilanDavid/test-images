@@ -228,12 +228,11 @@ class App extends Component {
           style={{ marginBottom: '15px' }}>
           <Card
             style={{
-              cursor: 'pointer',
               height: '220px'
             }}>
             <Card.Body>
               <Card.Text style={{ textAlign: 'center', marginTop: '25px' }}>
-                <p>Image URL</p>
+                Image URL
                 <input type="url" onChange={this.fileSelectedHandler} />
                 <AddPhotoAlternate style={{ fontSize: '60' }} />
               </Card.Text>
@@ -256,7 +255,8 @@ class App extends Component {
                 key={image.id}
                 imgurl={image.imgurl}
                 alt={image.name}
-                text={image.name} />
+                text={image.name}
+                active={ this.state.selectedImage === image.id ? 'shadow-lg' : '' } />
             )
           })}
           {addImage}

@@ -11,11 +11,12 @@ const displayImages = (props) => {
         xl={3}
         style={{ marginBottom: '15px' }}>
             <Card
+            className={props.active}
             onClick={props.click}
             style={{
                 height: '100%',
                 cursor: 'pointer'
-                }}>
+            }}>
                 <Card.Img
                 style={{ 
                     height: '150px',

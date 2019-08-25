@@ -17,7 +17,9 @@ const displayImages = (props) => {
                 onClick={props.click}
                 style={{
                     height: '100%',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    transform: props.active ? 'scale(1.1)' : '',
+                    transition: 'all 300ms ease-out'
                 }}>
                 <Card.Img
                     style={{

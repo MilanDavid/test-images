@@ -183,6 +183,7 @@ class App extends Component {
     this.setState({
       activeImages: newActiveImages
     })
+    event.target.value = null;
   }
 
   render() {

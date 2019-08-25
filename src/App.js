@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 import DisplayImages from './DisplayImages/DisplayImages';
-import { Jumbotron, Container, Row, ButtonGroup, Button } from 'react-bootstrap';
-import DisplayOptions from './DisplayImages/DisplayOptions/DisplayOptions';
+import DisplayTitle from './DisplayTitle/DisplayTitle';
+import DisplayCategories from './DisplayCategories/DisplayCategories';
+import { Container, Row } from 'react-bootstrap';
+import DisplayOptions from './DisplayOptions/DisplayOptions';
 import { saveAs } from 'file-saver';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import AddPhotoAlternate from '@material-ui/icons/AddPhotoAlternate';
 import { Card, Col } from 'react-bootstrap';
+import DisplayConfirmation from './DisplayConfirmation/DisplayConfirmation';
 
 class App extends Component {
 
@@ -178,40 +177,14 @@ class App extends Component {
     let nameSplit = newImage.split('/');
     let name = nameSplit[nameSplit.length - 1];
     let newActiveImages = [...this.state.activeImages]
-    let id = Math.floor( Math.random() * 1000)
-    newActiveImages.push({id: id, imgurl: newImage, name: name, text: name})
+    let id = Math.floor(Math.random() * 1000)
+    newActiveImages.push({ id: id, imgurl: newImage, name: name, text: name })
     this.setState({
       activeImages: newActiveImages
     })
   }
 
   render() {
-
-    // confirmation dialog template
-    let confirmDialog = (
-      <div>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description">
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              You are about to delete this image, proceed?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => this.handleClose(true)} style={{ backgroundColor: '#4f587d' }}>
-              Proceed
-            </Button>
-            <Button onClick={() => this.handleClose(false)} style={{ backgroundColor: '#4f587d' }} autoFocus>
-              Cancel
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    )
-
 
     // select image logic
     let selectedImageOption = null;
@@ -268,7 +241,7 @@ class App extends Component {
                 imgurl={image.imgurl}
                 alt={image.name}
                 text={image.name}
-                active={ this.state.selectedImage === image.id ? 'shadow-lg' : '' } />
+                active={this.state.selectedImage === image.id ? 'shadow-lg' : ''} />
             )
           })}
           {addImage}
@@ -276,60 +249,21 @@ class App extends Component {
       </Container>
     )
 
-    // header template
-    const header = (
-      <Jumbotron
-        fluid
-        style={{ backgroundColor: 'white' }}>
-        <Container>
-          <h1
-            className="text-left"
-            style={{ color: '#4f587d' }}>
-            My Library
-          </h1>
-        </Container>
-      </Jumbotron>
-    )
-
-    // toggle buttons category template
-    const toggleButton = (
-      <ButtonGroup
-        style={{
-          width: '245px',
-          marginTop: '20px',
-          marginBottom: '20px',
-          marginRight: '15px'
-        }}>
-        <Button
-          className={
-            this.state.show === 'activeImages' ?
-              'SelectActiveImages' :
-              'SelectDeletedImages'}
-          onClick={() => this.toggleButtonHandler('activeImages')}>
-          All
-        </Button>
-        <Button
-          className={
-            this.state.show === 'deletedImages' ?
-              'SelectActiveImages' :
-              'SelectDeletedImages'}
-          onClick={() => this.toggleButtonHandler('deletedImages')}>
-          Deleted
-        </Button>
-      </ButtonGroup>
-    )
-
     return (
       <div
         className="App">
-        {header}
+        <DisplayTitle />
         <Container
           className="text-right">
-          {toggleButton}
+          <DisplayCategories
+            show={this.state.show}
+            toggle={this.toggleButtonHandler} />
           {images}
         </Container>
         {selectedImageOption}
-        {confirmDialog}
+        <DisplayConfirmation
+          open={this.state.open}
+          handleClose={this.handleClose} />
       </div>
     )
 

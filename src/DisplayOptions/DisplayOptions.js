@@ -5,8 +5,8 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import RestoreIcon from '@material-ui/icons/Restore';
 import Paper from '@material-ui/core/Paper';
 
-// Display Options after select of images
 
+// Display Options after select of images
 const displayOptions = (props) => {
 
     // delete button

@@ -309,8 +309,7 @@ class App extends Component {
 
     return (
       <div
-        className="App"
-        style={{ backgroundColor: '#f3f4f8' }}>
+        className="App">
         {header}
         <Container
           className="text-right">

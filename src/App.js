@@ -50,8 +50,6 @@ class App extends Component {
     ],
     show: 'activeImages',
     selectedImage: null,
-    disableDeleted: false,
-    disableActive: false,
     open: false
   };
 
@@ -291,8 +289,7 @@ class App extends Component {
             this.state.show === 'activeImages' ?
               'SelectActiveImages' :
               'SelectDeletedImages'}
-          onClick={() => this.toggleButtonHandler('activeImages')}
-          disabled={this.state.disableActive}>
+          onClick={() => this.toggleButtonHandler('activeImages')}>
           All
         </Button>
         <Button
@@ -300,8 +297,7 @@ class App extends Component {
             this.state.show === 'deletedImages' ?
               'SelectActiveImages' :
               'SelectDeletedImages'}
-          onClick={() => this.toggleButtonHandler('deletedImages')}
-          disabled={this.state.disableDeleted}>
+          onClick={() => this.toggleButtonHandler('deletedImages')}>
           Deleted
         </Button>
       </ButtonGroup>

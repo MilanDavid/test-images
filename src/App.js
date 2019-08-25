@@ -13,6 +13,7 @@ import { Card, Col } from 'react-bootstrap';
 
 class App extends Component {
 
+  // initial state
   state = {
     activeImages: [
       {
@@ -53,6 +54,7 @@ class App extends Component {
     open: false
   };
 
+  // toggle between All an Deleted category handler
   toggleButtonHandler = typeOfImagesToShow => {
     if (this.state.selectedImage !== null) {
       this.setState({
@@ -66,6 +68,7 @@ class App extends Component {
     }
   };
 
+  // select image handler
   selectDeselectImageHandler = id => {
     if (this.state.selectedImage === id) {
       this.setState({
@@ -78,12 +81,14 @@ class App extends Component {
     }
   }
 
+  // deselect image handler
   deselectImagesHandler = () => {
     this.setState({
       selectedImage: null
     })
   }
 
+  // download image button handler
   downloadImageHandler = id => {
     let fileIndex = this.state.activeImages.findIndex(image => {
       return image.id === id
@@ -94,6 +99,7 @@ class App extends Component {
     saveAs(fileLink, fileName);
   }
 
+  // restore image button handler
   restoreImageHandler = id => {
     let newActiveImages = [...this.state.activeImages];
     let newDeletedImages = [...this.state.deletedImages];
@@ -122,12 +128,14 @@ class App extends Component {
     }
   }
 
+  // delete confirmation dialog handler
   confirmationDialogHandler = () => {
     this.setState({
       open: true
     })
   }
 
+  // handle confirmation close
   handleClose = (event) => {
     let id = this.state.selectedImage;
     if (event === true) {
@@ -164,6 +172,7 @@ class App extends Component {
     }
   }
 
+  // adding new image from url
   fileSelectedHandler = (event) => {
     let newImage = event.target.value;
     let nameSplit = newImage.split('/');
@@ -178,6 +187,7 @@ class App extends Component {
 
   render() {
 
+    // confirmation dialog template
     let confirmDialog = (
       <div>
         <Dialog
@@ -202,6 +212,8 @@ class App extends Component {
       </div>
     )
 
+
+    // select image logic
     let selectedImageOption = null;
 
     if (this.state.selectedImage) {
@@ -214,6 +226,7 @@ class App extends Component {
       )
     }
 
+    // add image card template
     let addImage = null;
 
     if (this.state.show === 'activeImages') {
@@ -240,6 +253,7 @@ class App extends Component {
       )
     }
 
+    // display images template
     let images = (
       <Container
         fluid
@@ -262,6 +276,7 @@ class App extends Component {
       </Container>
     )
 
+    // header template
     const header = (
       <Jumbotron
         fluid
@@ -276,6 +291,7 @@ class App extends Component {
       </Jumbotron>
     )
 
+    // toggle buttons category template
     const toggleButton = (
       <ButtonGroup
         style={{

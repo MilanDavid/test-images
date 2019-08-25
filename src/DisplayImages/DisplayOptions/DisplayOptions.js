@@ -5,8 +5,11 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import RestoreIcon from '@material-ui/icons/Restore';
 import Paper from '@material-ui/core/Paper';
 
+// Display Options after select of images
+
 const displayOptions = (props) => {
 
+    // delete button
     let deleteButton = (
         <BottomNavigationAction
             onClick={props.delete}
@@ -15,6 +18,7 @@ const displayOptions = (props) => {
             icon={<DeleteIcon />} />
     )
 
+    // restore button
     let restoreButton = (
         <BottomNavigationAction
             onClick={props.restore}
@@ -23,6 +27,7 @@ const displayOptions = (props) => {
             icon={<RestoreIcon />} />
     )
 
+    // delete button
     let downloadButton = (
         <BottomNavigationAction
             onClick={props.download}
@@ -31,6 +36,7 @@ const displayOptions = (props) => {
             icon={<CloudDownloadIcon />} />
     )
 
+    // check what buttons to show, depends on category
     if (props.optionSet === 'deletedImages') {
         deleteButton = null;
         downloadButton = null;
@@ -38,6 +44,7 @@ const displayOptions = (props) => {
         restoreButton = null;
     }
 
+    // returns element with appropriate buttons
     const options = (
         <Paper style={{
             backgroundColor: '#4f587d',

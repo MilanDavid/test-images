@@ -218,8 +218,9 @@ class App extends Component {
             }}>
             <Card.Body>
               <Card.Text style={{ textAlign: 'center', marginTop: '25px' }}>
-                Image URL
-                <input type="url" onChange={this.fileSelectedHandler} />
+                <label>Image URL
+                  <input type="url" onChange={this.fileSelectedHandler} />
+                </label>
                 <AddPhotoAlternate style={{ fontSize: '60' }} />
               </Card.Text>
             </Card.Body>

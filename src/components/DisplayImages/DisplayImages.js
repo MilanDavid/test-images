@@ -28,7 +28,7 @@ const displayImages = (props) => {
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: 'top',
                         backgroundSize: 'cover'
-                    }} />
+                    }} aria-label={props.alt}/>
                 <Card.Body>
                     <Card.Text style={{ textAlign: 'center' }}>
                         {props.text}
